@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Electra</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="manifest" href="manifest.json">
+<link href="css/index.css" rel="stylesheet"/>
+<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+<link rel="icon" href="images/favicon.ico" type="image/x-icon">
+<script type="text/javascript" src="glMatrix-0.9.5.min.js"></script>
+<script type="text/javascript" src="webgl-utils.js"></script>
+<script type="text/javascript" src="main.js"></script>
+<script src="gamepads.js"></script>
+
+
+<script id="shader-1-fs" type="f">
+    precision lowp float;
+    varying vec2 vTextureCoord;
+//    uniform sampler2D uSampler;
+    uniform vec2 resolution;
+    uniform vec2 mouse;
+    uniform vec2 mouse1;
+    uniform int index;
+    uniform float time;
+    uniform float Param1;
+    uniform float Param2;
+    uniform float Param3;
+    float s;
+
+
+float lineDist(vec2 a,vec2 b,vec2 point){
+	vec2 line=b-a;
+	vec2 d=point-a;
+	vec2 nl=normalize(line);
+	vec2 p=dot(nl,d)*nl;
+	float percent=length(p)/length(line)*sign(dot(p,line));
+	vec2 h=d-p;
+	if(percent>=0.0&&percent<1.0)percent=length(h);
+	else if(percent>1.0)percent=length(point-b);
+	else if(percent<0.0)percent=length(point-a);
+	return percent;
+}
+//float random( vec2 p ){return fract(cos(mod( 123456789., 1e-7 + 256. * dot(p,vec2(23.1406926327792690,2.6651441426902251)))));}
+float random( vec2 p ){return fract( dot(p,vec2(23.1406926327792690,2.6651441426902251)));}
+//float random(vec2 p){return fract(length(p));}
+float thunder(vec2 a,vec2 b,vec2 point){
+	float r=1.0;
+	float l = length(a-b);
+	for(int i=0;i<4;i++){
+		vec2 aa=a;
+		vec2 bb=b;
+		float middle=2.0;
+		float h=middle;
+//		for(int it=0;it<2;it++){ take out loop to make it quicker?
+			float radius=0.03*max(length(aa-bb)*6.0, l);
+			float angle=4.0*time;
+			vec2 mid=(aa+bb)*0.5+vec2(0.0,radius*(fract(angle)-0.5));
+			h/=2.0;
+			if(float(i)<middle){
+				bb=mid;
+				middle-=h;
+			}else{
+				aa=mid;
+				middle+=h;
+			}
+			radius=0.03*max(length(aa-bb)*6.0, l);
+			angle=12.0*time;
+			mid=(aa+bb)*0.5+vec2(0.0,radius*(fract(angle)-0.5));
+			h/=2.0;
+			if(float(i)<middle){
+				bb=mid;
+				middle-=h;
+			}else{
+				aa=mid;
+				middle+=h;
+			}
+//		}
+		float dist=lineDist(aa,bb,point);
+		if(dist<r)r=dist;
+	}
+	return r;
+}
+
+void main( void ) {
+	vec2 position = (gl_FragCoord.xy/resolution.xy);
+	vec2 a=vec2(0.0,Param1);
+	vec2 b=vec2(mouse.x,mouse.y);
+	vec2 c = vec2(1.0,Param2);
+  float color;
+   if (mouse.x == -1.0) {// ie no touching
+   		float e1=thunder(a,c,position);
+   		color = .0005/(e1*e1);
+   }
+   else if (mouse1.x == -1.0) { // ie. ony one touch
+			float e=thunder(b,c,position);
+			float d=thunder(a,b,position);
+	 	  color =max(.0005/(d*d),.0005/(e*e));
+	}
+	else { // two fingers
+	    a = mouse1;
+      float f =thunder(a,b,position);
+   		color = .0005/(f*f);
+	}
+	vec3 col = vec3( color*0.4,color*0.4,color );
+	if (index == 0)
+	  gl_FragColor = vec4(col, 1.0);
+	else if (index == 1)
+	  gl_FragColor = vec4(col.zxy, 1.0);
+	else if (index == 2)
+	  gl_FragColor = vec4(col.yzx, 1.0);
+	else if (index == 3)
+	  gl_FragColor = vec4(col.zzx, 1.0);
+	else if (index == 4)
+	  gl_FragColor = vec4(col.zyz, 1.0);
+}
+
+</script>
+
+
+<script id="shader-vs" type="v">
+    attribute vec3 aVertexPosition;
+    attribute vec2 aTextureCoord;
+
+    uniform mat4 uMVMatrix;
+    uniform mat4 uPMatrix;
+
+    varying vec2 vTextureCoord;
+
+    void main(void) {
+        gl_Position = vec4(aVertexPosition, 1.0);
+        vTextureCoord = aTextureCoord;
+    }
+</script>
+
+</head>
+<body>
+<div id="container">
+  <div id="main">
+    <canvas id="webgl-canvas"  style="border: none;" width="500" height="500"></canvas>
+//
+    <splash class = "btn" enabled></splash>
+    <button class="btn" enabled></button>
+    <button1 class="btn" enabled></button1>
+    <button2 class="btn" enabled></button2>
+    <button3 class="btn" enabled></button3>
+    <audio id="audio" autobuffer="autobuffer" preload="auto">
+    <source src="electric.mp3" type="audio/mp3" />
+	This browser does not support the AUDIO element.
+</audio>
+    <audio id="audio1" autobuffer="autobuffer" preload="auto">
+    <source src="electric1.mp3" type="audio/mp3" />
+	This browser does not support the AUDIO element.
+</audio>
+    </div>
+  </div>
+</body>
+</html>
