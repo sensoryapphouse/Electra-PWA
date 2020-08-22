@@ -5,3 +5,5 @@
 .git-ftp-include
 .gitlab-ci.yml
 .idea
+.github
+*/.github
