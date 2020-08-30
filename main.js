@@ -503,25 +503,24 @@ function camStart(isTwa, hasXboxControls) {
     Action(3);
   }
 
-  gamepads.addEventListener('connect', e => {
-    console.log('Gamepad connected:');
-    console.log(e.gamepad);
-    e.gamepad.addEventListener('buttonpress', e => showPressedButton(e.index));
-    e.gamepad.addEventListener('buttonrelease', e => removePressedButton(e.index));
-    e.gamepad.addEventListener('joystickmove', e => moveJoystick(e.values, true),
-      StandardMapping.Axis.JOYSTICK_LEFT);
-    e.gamepad.addEventListener('joystickmove', e => moveJoystick(e.values, false),
-      StandardMapping.Axis.JOYSTICK_RIGHT);
-  });
-
-  gamepads.addEventListener('disconnect', e => {
-    console.log('Gamepad disconnected:');
-    console.log(e.gamepad);
-  });
-
-  gamepads.start();
-
   if(hasXboxControls){
+    gamepads.addEventListener('connect', e => {
+      console.log('Gamepad connected:');
+      console.log(e.gamepad);
+      e.gamepad.addEventListener('buttonpress', e => showPressedButton(e.index));
+      e.gamepad.addEventListener('buttonrelease', e => removePressedButton(e.index));
+      e.gamepad.addEventListener('joystickmove', e => moveJoystick(e.values, true),
+        StandardMapping.Axis.JOYSTICK_LEFT);
+      e.gamepad.addEventListener('joystickmove', e => moveJoystick(e.values, false),
+        StandardMapping.Axis.JOYSTICK_RIGHT);
+    });
+  
+    gamepads.addEventListener('disconnect', e => {
+      console.log('Gamepad disconnected:');
+      console.log(e.gamepad);
+    });
+  
+    gamepads.start();
     function showPressedButton(index) {
       console.log("Press: ", index);
       if (!splash.hidden) {
