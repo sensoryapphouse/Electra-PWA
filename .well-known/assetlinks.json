@@ -1,0 +1,37 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.sesnsoryapphouse.electra",
+    "sha256_cert_fingerprints":
+    ["E7:8C:D6:08:20:0E:A6:34:0F:89:38:49:FD:2D:59:87:5A:06:A7:66:0B:65:CC:E0:77:CA:23:D5:01:8F:95:21"]
+  }
+  },
+  {
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.sensoryapphouse.imeba",
+    "sha256_cert_fingerprints":
+    ["48:61:E4:D2:00:AF:B1:3C:CD:E2:65:22:DF:27:2F:F6:59:CF:F4:50:47:5C:6E:B3:17:E8:6E:E7:D7:BC:3D:F3"]
+  }
+  },
+  {
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.sensoryapphouse.plazma",
+    "sha256_cert_fingerprints":
+    ["48:61:E4:D2:00:AF:B1:3C:CD:E2:65:22:DF:27:2F:F6:59:CF:F4:50:47:5C:6E:B3:17:E8:6E:E7:D7:BC:3D:F3"]
+  }
+  },
+  {
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.sensoryapphouse.abstract1",
+    "sha256_cert_fingerprints":
+    ["48:61:E4:D2:00:AF:B1:3C:CD:E2:65:22:DF:27:2F:F6:59:CF:F4:50:47:5C:6E:B3:17:E8:6E:E7:D7:BC:3D:F3"]
+  }
+  }
+]
