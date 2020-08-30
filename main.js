@@ -20,7 +20,7 @@ window.onload = () => {
   const isTwa = urlParams.get('isTwa');
   const hasXboxControls = urlParams.get('xbox');
 
-  camStart(isTwa);
+  camStart(isTwa,hasXboxControls);
 }
 
 // Override the function with all the posibilities
@@ -399,7 +399,7 @@ function MonitorMouseUp(e) {
   return false;
 }
 
-function camStart(isTwa) {
+function camStart(isTwa, hasXboxControls) {
   var splash = document.querySelector('splash');
   var button = document.querySelector('button');
   var button1 = document.querySelector('button1');
